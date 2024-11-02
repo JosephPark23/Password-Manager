@@ -1,0 +1,20 @@
+# created by virtualenv automatically
+.venv/Lib
+# Python bytecode files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+env/
+venv/
+.venv/
+
+# OS and editor-specific files
+Thumbs.db  # Windows
+
+# Configs and secrets
+.env
+
+# Dependency files
+*.egg-info/
+*.lock
