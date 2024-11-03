@@ -9,16 +9,18 @@ from base64 import urlsafe_b64encode
 
 class Vault:
 
-    def __init__(self):
+    def __init__(self, vault_path, salt_path):
         self.master_password = ""
         self.derived_key = b''
         self.salt = b''
-        self.vault_path = 'chase.csv'
+        self.vault_path = vault_path
+        self.salt_path = salt_path
 
     def create_data_file(self):
         # create a data template
         with open(self.vault_path, 'x', newline='') as csvfile:
             vault_writer = csv.writer(csvfile, delimiter=" ", quotechar="|", )
+            vault_writer.writerow(['The Vault'])
             vault_writer.writerow(['Username', 'URL', 'Salt', 'Password'])
 
         # hide the file
@@ -40,6 +42,11 @@ class Vault:
             writer = csv.writer(csvfile)
             writer.writerow(["Salt", "None", self.salt.hex(), ""])
 
+        with open(self.salt_path, 'x', newline='') as saltfile:
+            saltfile.write(self.salt.hex())
+
+        if os.name == 'nt':
+            subprocess.call(["attrib", "+H", self.salt_path])
 
     # encrypt the vault's contents using pbkdf2
     def encrypt_vault_file(self):
@@ -55,3 +62,12 @@ class Vault:
         with open(self.vault_path, "wb") as csvfile:
             csvfile.write(encrypted_contents)
 
+    # get the checksum and store it
+    def calculate_checksum(self):
+        hasher = hashlib.sha256()
+        with open(self.vault_path, 'rb') as file:
+            while True:
+                chunk = file.read(4096)
+                if not chunk:
+                    break
+                hasher.update(chunk)
