@@ -1,0 +1,10 @@
+**Project Reflections & Updates**
+
+**11/3/2024**
+- I'm starting this project reflections and updates file so I can better organize my ideas and tasks
+  for this project. I've been working on this project for a few days already and I have a specific
+  structure in mind.
+- TODO:
+    - Continue working on the hash storage and comparison functions: Need to keep updating the hash
+    - Finish the rest of the architecture: the homepage interface, decision trees, and getting the passwords
+    - Add exception handlers to the file opening blocks and password confirmation procedures for the vault setup file
