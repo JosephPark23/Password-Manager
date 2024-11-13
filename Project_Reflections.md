@@ -19,3 +19,13 @@
 ##### - Some ideas I have for the future:
   - Integrate Tkinter or a GUI library to make the application more robust and accessible
   - Add a 2FA feature during authentication or such to ensure the ID of the user
+
+### **11/12/2024**
+- Today, I finished integrating the hash and salt storage files/algorithms and I now have to work on
+  finishing the vault modification and view files. After I'm done with that, I should be able to move on
+  to creating more advanced features, such as TKinter, 2FA, and other cool applications. I also have to add
+  exception mechanisms into the code to make it more robust. 
+#### - TODO:
+    - Finish creating vault modification and access files
+    - Add exception mechanisms to ensure robustness
+    - Brainstorm more ideas for better features and security
