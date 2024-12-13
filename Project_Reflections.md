@@ -29,3 +29,13 @@
     - Finish creating vault modification and access files
     - Add exception mechanisms to ensure robustness
     - Brainstorm more ideas for better features and security
+
+### ***12/12/2024***
+- I've finished the vault access files (I've gotten rid of the modification file for now - I don't really see a point
+  in having one), and finished integrating the files and modules together, but I have so much more to do. I have to 
+  replace my recursive functions with iterative loops, implement except and file handling on all functions, sanitize 
+  inputs to prevent path transversal vulnerabilities, ensure cryptographic operations aren't redundant, and fix any logic/control flow issues.
+#### - TODO:
+    - Fix input handling: santize & secure inputs, replace recursive functions with iterative loops
+    - Implement file handling try/except blocks accross files
+    - Ensure logic and control are efficient and that redundancies are _nonexistent_.

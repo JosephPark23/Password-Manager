@@ -3,53 +3,61 @@ from base64 import urlsafe_b64encode
 
 import pbkdf2 as pb
 from cryptography.fernet import Fernet
+import csv
+from os import system, name
 
+# clear the screen
+def clear():
+    # windows
+    if name == 'nt':
+        _ = system('cls')
+    # mac
+    else:
+        _ = system('clear')
 
 # get the credentials from the user
-def get_credentials():
+def get_credentials(salt):
     submitted_password = input("Enter the master password: ")
-
-    with open("salt.txt", "r") as saltfile:
-        salt = saltfile.read().strip()
 
     # convert to proper format
     b_submitted_password = bytes(submitted_password, "utf-8")
-    b_submitted_salt = bytes.fromhex(salt)
+    b_submitted_salt = bytes(salt)
 
     return b_submitted_password, b_submitted_salt
 
 # derive the key using the credentials
-def derive_key():
+def derive_key(salt):
     # pbkdf2 to derive key
-    master_password, salt = get_credentials()
+    master_password, salt = get_credentials(salt)
     derived_key = urlsafe_b64encode(pb.pbkdf2(hashlib.sha256, master_password, salt, 20000, 32))
 
     return derived_key, salt
 
-# get the checksum of the decrypted file
-def confirm_checksums(data):
-    # generate hash from data
-    checksum = hashlib.sha256(data).hexdigest()
+# decrypt using file:
+def authenticate(vault_path, salt, stored_checksum):
+    derived_key, salt = derive_key(salt)
 
-    return checksum
+    with open(vault_path, "rb") as encrypted_file:
+        encrypted_contents = encrypted_file.read()
 
-# confirm password is correct
-def authenticate():
-    # decrypt the contents using the key
-    derived_key, salt = derive_key()
     fernet = Fernet(derived_key)
+    decrypted_contents = fernet.decrypt(encrypted_contents)
+    calculated_checksum = hashlib.sha256(decrypted_contents).hexdigest()
 
-    # decrypt the contents using the derived key
-    with open("insert_vault_path_here", "rb") as vaultfile: # when the user interface is implemented the string will be replaced
-        contents = vaultfile.read()
-    decrypted_contents = fernet.decrypt(contents)
+    if calculated_checksum == stored_checksum:
+        print_contents(decrypted_contents)
+    else:
+        print("Incorrect password. Please try again.")
 
-    # get the original hash
-    with open("insert_hash_path_here", "rb") as hashfile:
-        original_hash = hashfile.read()
 
-    # authenticate
-    if original_hash == confirm_checksums(decrypted_contents):
-        return True
+# print the decrypted contents
+def print_contents(decrypted_contents):
+    print("\nVault Contents:\n================")
+    reader = csv.reader(decrypted_contents.decode().splitlines())
+    headers = next(reader)  # Skip headers
+    print(f"{headers[0]:<20} {headers[1]:<30} {headers[2]:<15} {headers[3]:<20}")
+    print("-" * 90)
+    for row in reader:
+        print(f"{row[0]:<20} {row[1]:<30} {row[2]:<15} {row[3]:<20}")
 
 

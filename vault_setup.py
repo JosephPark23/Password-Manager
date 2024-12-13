@@ -36,13 +36,11 @@ class Vault:
     # create the vault file
     def create_data_file(self):
         # get vault path from user
-        self.vault_path = input("Enter the name of the vault file: ") + ".csv"
-        self.clear()
+        self.vault_path = input("Enter the name of the new vault file: ") + ".csv"
 
         # create a data template
         with open(self.vault_path, 'x', newline='') as csvfile:
             vault_writer = csv.writer(csvfile, delimiter=",", quotechar="|", )
-            vault_writer.writerow(['The Vault'])
             vault_writer.writerow(['Username', 'URL', 'Salt', 'Password'])
 
         # hide the file
@@ -53,8 +51,8 @@ class Vault:
     def set_master_password(self):
         # get master password from user
         while True:
-            self.master_password = getpass.getpass("Enter your master password: ")
-            confirmation = getpass.getpass("Confirm your master password: ")
+            self.master_password = getpass.getpass("Enter your new master password: ")
+            confirmation = getpass.getpass("Confirm your new master password: ")
             self.clear()
             if self.master_password == confirmation:
                 break
@@ -102,6 +100,13 @@ class Vault:
               f"Master Password: {self.master_password}"
               f"Unique Vault ID: {self.vault_ID}\n"
               "===================================")
+
+    # execute all the commands in sequence
+    def execute_setup(self):
+        self.create_data_file()
+        self.set_master_password()
+        self.encrypt_vault_file()
+        self.inform_user()
 
 
 

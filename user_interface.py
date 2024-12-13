@@ -1,12 +1,6 @@
 # dependencies
-import csv
-import getpass
-
-from cryptography.fernet import Fernet
-import pbkdf2 as pb
-import hashlib
-import os, subprocess
-from base64 import urlsafe_b64encode
+from access_vault import authenticate
+from vault_setup import Vault
 
 
 # getting the salt, hash, and vault path
@@ -21,9 +15,37 @@ def get_information():
 
     return contents.split("\n")
 
+# sets up new vault
+def create_vault_():
+    v = Vault()
+    v.execute_setup()
+
+# access and gets contents of the vault
+def access_vault_():
+    salt, checksum, vault_path = get_information()
+    authenticate(vault_path, salt, checksum)
+
+# main menu
+def menu():
+    while True:
+        choice = input("Would you like to:\n"
+                       "1) Create a new vault\n"
+                       "2) Access an existing vault\n"
+                       "Select a number that corresponds to your preferred choice: ").strip()
+
+        actions = {
+            "1":create_vault_,
+            "2":access_vault_,
+            "0":exit
+        }
+
+        action = actions.get(choice)
+        if action:
+            action()
+        else:
+            print("Invalid input, please try again.")
 
 
-def
+if __name__ == "__main__":
+    menu()
 
-
-def get_choice()
