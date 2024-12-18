@@ -9,12 +9,16 @@ def get_information():
     vault_id = input("Enter the unique vault ID: ")
     storage_path = f"{vault_id}.csv"
 
-    # get the other vault information
-    with open(storage_path, "r") as storagefile:
-        contents = storagefile.read()
+    try:
+        # get the other vault information
+        with open(storage_path, "r") as storagefile:
+            contents = storagefile.read()
+    except Exception as e:
+        print(f"Something went wrong. Check your information: {e}")
 
-    return contents.split("\n")
+    contents = contents.split(",")
 
+    return contents[:3]
 # sets up new vault
 def create_vault_():
     v = Vault()
@@ -27,21 +31,21 @@ def access_vault_():
 
 # main menu
 def menu():
+
+    actions = {
+        "1": create_vault_,
+        "2": access_vault_,
+        "0": exit
+    }
+
     while True:
         choice = input("Would you like to:\n"
                        "1) Create a new vault\n"
                        "2) Access an existing vault\n"
                        "Select a number that corresponds to your preferred choice: ").strip()
 
-        actions = {
-            "1":create_vault_,
-            "2":access_vault_,
-            "0":exit
-        }
-
-        action = actions.get(choice)
-        if action:
-            action()
+        if choice in actions:
+            actions[choice]()
         else:
             print("Invalid input, please try again.")
 

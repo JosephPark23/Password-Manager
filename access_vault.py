@@ -1,7 +1,6 @@
 import hashlib
 from base64 import urlsafe_b64encode
 
-import pbkdf2 as pb
 from cryptography.fernet import Fernet
 import csv
 from os import system, name
@@ -19,35 +18,47 @@ def clear():
 def get_credentials(salt):
     submitted_password = input("Enter the master password: ")
 
-    # convert to proper format
-    b_submitted_password = bytes(submitted_password, "utf-8")
-    b_submitted_salt = bytes(salt)
+    if isinstance(salt, str):
+        salt = bytes.fromhex(salt)
 
-    return b_submitted_password, b_submitted_salt
+    return submitted_password, salt
 
 # derive the key using the credentials
 def derive_key(salt):
     # pbkdf2 to derive key
     master_password, salt = get_credentials(salt)
-    derived_key = urlsafe_b64encode(pb.pbkdf2(hashlib.sha256, master_password, salt, 20000, 32))
+
+    derived_key = urlsafe_b64encode(hashlib.pbkdf2_hmac('sha256', master_password.encode('utf-8'), salt, 100, 32))
 
     return derived_key, salt
 
 # decrypt using file:
 def authenticate(vault_path, salt, stored_checksum):
-    derived_key, salt = derive_key(salt)
+    while True:
+        derived_key, salt = derive_key(salt)
 
-    with open(vault_path, "rb") as encrypted_file:
-        encrypted_contents = encrypted_file.read()
+        try:
+            with open(vault_path, "rb") as encrypted_file:
+                encrypted_contents = encrypted_file.read()
+        except Exception as e:
+            print(f"Something went wrong. Check your information: {e}")
+            continue
 
-    fernet = Fernet(derived_key)
-    decrypted_contents = fernet.decrypt(encrypted_contents)
-    calculated_checksum = hashlib.sha256(decrypted_contents).hexdigest()
+        fernet = Fernet(derived_key)
 
-    if calculated_checksum == stored_checksum:
-        print_contents(decrypted_contents)
-    else:
-        print("Incorrect password. Please try again.")
+        try:
+            decrypted_contents = fernet.decrypt(encrypted_contents)
+        except Exception as e:
+            print(f"Decryption went wrong. Check your information: {e}")
+            continue
+
+        calculated_checksum = hashlib.sha256(decrypted_contents).hexdigest()
+
+        if calculated_checksum == stored_checksum:
+            print_contents(decrypted_contents)
+            break
+        else:
+            print("Incorrect password. Please try again.")
 
 
 # print the decrypted contents

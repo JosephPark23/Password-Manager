@@ -39,3 +39,10 @@
     - Fix input handling: santize & secure inputs, replace recursive functions with iterative loops
     - Implement file handling try/except blocks accross files
     - Ensure logic and control are efficient and that redundancies are _nonexistent_.
+
+### ***12/12/2024***
+- Everything's finished but there are some major areas to iron out (like the access vault file which doesn't seem to be working)
+  after I fix those, I'll move onto advanced features like building a CLI (and later a tkinter or directly to a tkinter), 2FA,
+  input validation, and other objects. 
+#### - TODO:
+    - massive debugging!!!
