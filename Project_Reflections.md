@@ -1,7 +1,7 @@
 # **Project Reflections & Updates**
 
-### **11/3/2024**
-- I'm starting this project reflections and updates file so I can better organize my ideas and tasks
+### ***11/3/2024***
+- I'm starting this project reflections and updates file, so I can better organize my ideas and tasks
   for this project. I've been working on this project for a few days already and I have a specific
   structure in mind.
 #### - TODO:
@@ -9,10 +9,10 @@
     - Finish the rest of the architecture: the homepage interface, decision trees, and getting the passwords
     - Add exception handlers to the file opening blocks and password confirmation procedures for the vault setup file
 
-### **11/5/2024**
+### ***11/5/2024***
 - I've developed the structure more in the past few days. My plan is to create the bare, terminal-based
   manager first, then transition to a more advanced, GUI-based, feature-rich application
-- I've created the authentication file but I still have work to do: I have to integrate the hash and salt
+- I've created the authentication file, but I still have work to do: I have to integrate the hash and salt
   filepath storage mechanisms into both the authentication and vault creation files, and add exception
   mechanisms to ensure smooth running
 - I also have to manage the print statements and user interactions in the files themselves
@@ -20,7 +20,7 @@
   - Integrate Tkinter or a GUI library to make the application more robust and accessible
   - Add a 2FA feature during authentication or such to ensure the ID of the user
 
-### **11/12/2024**
+### ***11/12/2024***
 - Today, I finished integrating the hash and salt storage files/algorithms and I now have to work on
   finishing the vault modification and view files. After I'm done with that, I should be able to move on
   to creating more advanced features, such as TKinter, 2FA, and other cool applications. I also have to add
@@ -40,7 +40,7 @@
     - Implement file handling try/except blocks accross files
     - Ensure logic and control are efficient and that redundancies are _nonexistent_.
 
-### ***12/12/2024***
+### ***12/17/2024***
 - Everything's finished but there are some major areas to iron out (like the access vault file which doesn't seem to be working)
   after I fix those, I'll move onto advanced features like building a CLI (and later a tkinter or directly to a tkinter), 2FA,
   input validation, and other objects. 

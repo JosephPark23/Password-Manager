@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="75dd1a28-797e-472a-98bb-729a4797b7d9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/access_vault.py" beforeDir="false" afterPath="$PROJECT_DIR$/access_vault.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modify_vault.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/user_interface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault_setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault_setup.py" afterDir="false" />
-    </list>
+    <list default="true" id="75dd1a28-797e-472a-98bb-729a4797b7d9" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,7 +36,7 @@
     <setting file="file://$PROJECT_DIR$/.venv/vault_setup.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
