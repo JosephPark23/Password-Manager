@@ -46,3 +46,11 @@
   input validation, and other objects. 
 #### - TODO:
     - massive debugging!!!
+
+### ***1/5/2025***
+- I finished debugging, added a lot of changes and everything works perfectly fine - I also added some colors and edited the
+  terminal interactions to make them look nicer. All I need to add now is the "adding a password" functionality to the program
+  and the core, CLI password manager will be finished. After that, I get to play around with adding advanced features
+  such as 2FA, tkinter, and more secure algorithms. Happy new year!
+#### - TODO:
+    - Add a functionality so users can add passwords to the password manager. 

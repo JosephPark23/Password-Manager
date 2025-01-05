@@ -16,6 +16,9 @@ def clear():
 
 # get the credentials from the user
 def get_credentials(salt):
+    clear()
+    print("JIP Password Manager Access Portal\n")
+    print("==================================\n")
     submitted_password = input("Enter the master password: ")
 
     if isinstance(salt, str):
@@ -24,7 +27,7 @@ def get_credentials(salt):
     return submitted_password, salt
 
 # derive the key using the credentials
-def derive_key(salt):
+def derive_key(salt): 
     # pbkdf2 to derive key
     master_password, salt = get_credentials(salt)
 
@@ -32,7 +35,7 @@ def derive_key(salt):
 
     return derived_key, salt
 
-# decrypt using file:
+# decrypt using the information processed
 def authenticate(vault_path, salt, stored_checksum):
     while True:
         derived_key, salt = derive_key(salt)
@@ -40,6 +43,7 @@ def authenticate(vault_path, salt, stored_checksum):
         try:
             with open(vault_path, "rb") as encrypted_file:
                 encrypted_contents = encrypted_file.read()
+
         except Exception as e:
             print(f"Something went wrong. Check your information: {e}")
             continue
@@ -48,6 +52,7 @@ def authenticate(vault_path, salt, stored_checksum):
 
         try:
             decrypted_contents = fernet.decrypt(encrypted_contents)
+
         except Exception as e:
             print(f"Decryption went wrong. Check your information: {e}")
             continue
@@ -63,12 +68,16 @@ def authenticate(vault_path, salt, stored_checksum):
 
 # print the decrypted contents
 def print_contents(decrypted_contents):
-    print("\nVault Contents:\n================")
+    clear()
+    print("\n============================================JIP PASSWORD MANAGER===========================================\n\n")
     reader = csv.reader(decrypted_contents.decode().splitlines())
     headers = next(reader)  # Skip headers
+
     print(f"{headers[0]:<20} {headers[1]:<30} {headers[2]:<15} {headers[3]:<20}")
     print("-" * 90)
     for row in reader:
         print(f"{row[0]:<20} {row[1]:<30} {row[2]:<15} {row[3]:<20}")
 
+    input("\n\nPress the ENTER key to leave: ")
+    clear()
 
