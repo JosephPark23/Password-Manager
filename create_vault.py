@@ -89,7 +89,7 @@ class Vault:
         try:
             with open(self.vault_path, 'a', newline='') as csvfile:
                 writer = csv.writer(csvfile)
-                writer.writerow(["Salt", "None", self.salt.hex(), ""])
+                writer.writerow(["Salt", "None", f"{self.salt.hex()}", "None"])
 
         except Exception as e:
             print(f"An error occurred while storing the salt: {e}")

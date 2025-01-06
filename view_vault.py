@@ -80,4 +80,3 @@ def print_contents(decrypted_contents):
 
     input("\n\nPress the ENTER key to leave: ")
     clear()
-

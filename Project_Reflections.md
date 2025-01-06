@@ -53,4 +53,12 @@
   and the core, CLI password manager will be finished. After that, I get to play around with adding advanced features
   such as 2FA, tkinter, and more secure algorithms. Happy new year!
 #### - TODO:
-    - Add a functionality so users can add passwords to the password manager. 
+    - Add a functionality so users can add passwords to the password manager.
+
+### ***1/5/2025 - PART TWO***
+- Okay so I was bored and I finished adding the functionality so the CLI part is finalized and done but holy it took so much debugging oh my goodness this took 3 hours
+  to fix everything but this is worth it because it's one of the coolest things I've ever made (but doesn't top the lyrics finder)
+  hooray!!! I'm gonna take a nice long rest now sooooo bye!
+#### - TODO:
+    - Take a break because debugging is actually the worst thing ever to exist like why can't code just work when you write it
+    - There are like twenty billion redundancies so I'm gonna have to make code more efficient but that's for future me soooo

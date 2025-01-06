@@ -1,8 +1,10 @@
 # dependencies
-from access_vault import authenticate
-from vault_setup import Vault
+from view_vault import authenticate
+from create_vault import Vault
+from add_password import main
 from os import system, name
 from colors import bcolors as cr
+from time import sleep
 
 # clear the screen
 def clear():
@@ -29,7 +31,7 @@ def get_information():
 
     contents = contents.split(",")
 
-    return contents[:3]
+    return contents[:3] + [storage_path]
 
 # sets up new vault
 def create_vault_():
@@ -39,8 +41,13 @@ def create_vault_():
 
 # access and gets contents of the vault
 def access_vault_():
-    salt, checksum, vault_path = get_information()
+    salt, checksum, vault_path, storage_path = get_information()
     authenticate(vault_path, salt, checksum)
+
+# add a password
+def add_password_():
+    salt, checksum, vault_path, storage_path = get_information()
+    main(salt, checksum, vault_path, storage_path)
 
 # main menu
 def menu():
@@ -48,7 +55,8 @@ def menu():
     actions = {
         "1": create_vault_,
         "2": access_vault_,
-        "3": exit
+        "3": add_password_,
+        "4": exit
     }
 
     # Options
@@ -56,13 +64,16 @@ def menu():
         choice = input("Would you like to:\n"
                        "1) Create a new vault\n"
                        "2) Access an existing vault\n"
-                       "3) Exit the program\n\n"
+                       "3) Add a password\n"
+                       "4) Exit the program\n\n"
                        "Enter the number that corresponds to your choice: ").strip()
 
         if choice in actions:
             actions[choice]()
         else:
             print("Invalid input, please try again.")
+            sleep(2)
+            clear()
 
 
 if __name__ == "__main__":
