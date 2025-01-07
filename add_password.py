@@ -22,9 +22,9 @@ def clear():
 
 # get the credentials from the user
 def get_credentials():
-    print("JIP Password Manager Access Portal\n")
+    print(f"{cr.HEADER}{cr.CYAN}JIP Password Manager Access Portal{cr.END}\n")
     print("==================================\n")
-    submitted_password = input("Enter the master password: ")
+    submitted_password = getpass.getpass("Enter the master password: ")
 
     return submitted_password
 
@@ -52,6 +52,8 @@ def unlock_vault(actual_salt, actual_checksum, vault_path):
 
         except Exception as e:
             print(f"Something went wrong. Check your information: {e}")
+            sleep(2)
+            clear()
             continue
 
         fernet = Fernet(derived_key)
@@ -61,6 +63,8 @@ def unlock_vault(actual_salt, actual_checksum, vault_path):
 
         except Exception as e:
             print(f"Decryption went wrong. Check your information: {e}")
+            sleep(2)
+            clear()
             continue
 
         # confirm the key's contents are valid
@@ -73,25 +77,26 @@ def unlock_vault(actual_salt, actual_checksum, vault_path):
 
 # get the information for the new password
 def create_new_entry():
-    print("============New Password Entry============\n")
-    username = input("What is the username?: ")
+    print(f"{cr.HEADER}{cr.CYAN}============New Password Entry============\n{cr.END}")
+    account = input("What is the new password for? (e.g. Instagram, Amazon, etc.): ")
+    username = input("\nWhat is the username?: ")
 
     # confirm the password
     while True:
-        password = getpass.getpass("Enter the password: ")
+        password = getpass.getpass("\nEnter the new password you want to store: ")
         confirmation = getpass.getpass("Confirm the new password: ")
 
         if password == confirmation:
-            print(f"\n{cr.GREEN}{cr.BOLD}Password confirmed!{cr.END}")
-            sleep(2)
+            print(f"\n{cr.GREEN}{cr.BOLD}Password successfully stored!{cr.END}")
+            sleep(3)
             break
 
-    return username, password
+    return username, password, account
 
 # store the new password
 def add_entry(vault_path, derived_key):
-    username, password = create_new_entry()
-    new_entry = f"{username},None,None,{password}\n"
+    username, password, account = create_new_entry()
+    new_entry = f"{account},{username},{password}\n"
 
     fernet = Fernet(derived_key)
 
@@ -119,6 +124,8 @@ def add_entry(vault_path, derived_key):
         print(f"New entry added: {username}")
 
     except Exception as e:
+        sleep(2)
+        clear()
         print(f"Exception occurred: {e}")
 
 # get the new checksum
@@ -131,6 +138,8 @@ def get_new_checksum(vault_path, derived_key):
 
         except Exception as e:
             print(f"Something went wrong. Check your information: {e}")
+            sleep(2)
+            clear()
             continue
 
         fernet = Fernet(derived_key)

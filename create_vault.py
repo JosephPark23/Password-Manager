@@ -11,6 +11,7 @@ from base64 import urlsafe_b64encode
 from tempfile import NamedTemporaryFile
 from time import sleep
 from colors import bcolors as cr
+from pathlib import Path
 
 # clear the screen
 def clear():
@@ -37,7 +38,9 @@ class Vault:
             self.vault_ID = random.randint(1000, 9999)
             if not os.path.exists(f"{self.vault_ID}.csv"):
                 break
-        self.storage_path = f"{self.vault_ID}.csv"
+
+        home_dir = Path.home()
+        self.storage_path = home_dir / f"{self.vault_ID}.csv"
 
     # create the vault file
     def create_data_file(self):
@@ -45,8 +48,9 @@ class Vault:
 
         # name the vault filepath with user's choice
         while True:
-            self.vault_path = input("Enter the name of the new vault file: ") + ".csv"
-            print(f"Vault file path: {self.vault_path}")
+            vault_name = input("Enter the name of the new vault file: ")
+            home_dir = Path.home()
+            self.vault_path = home_dir / f"{vault_name}.csv"
 
             if os.path.exists(self.vault_path):
                 print("Error: File already exists. Choose a different name.")
@@ -59,7 +63,7 @@ class Vault:
         try:
             with open(self.vault_path, 'x', newline='') as csvfile:
                 vault_writer = csv.writer(csvfile, delimiter=",", quotechar="|", )
-                vault_writer.writerow(['Username', 'URL', 'Salt', 'Password'])
+                vault_writer.writerow(['Website/Account', 'Username', 'Password'])
 
         except Exception as e:
             print(f"An error occurred while creating the vault file: {e}")
@@ -84,15 +88,6 @@ class Vault:
         # derive the key from password using pbkdf2 and generate a random salt
         self.salt = os.urandom(32)
         self.derived_key = urlsafe_b64encode(hashlib.pbkdf2_hmac('sha256', self.master_password.encode('utf-8'), self.salt, 100, 32))
-
-        # store the salt in the vault file
-        try:
-            with open(self.vault_path, 'a', newline='') as csvfile:
-                writer = csv.writer(csvfile)
-                writer.writerow(["Salt", "None", f"{self.salt.hex()}", "None"])
-
-        except Exception as e:
-            print(f"An error occurred while storing the salt: {e}")
 
     # get the checksum and salt and store it
     def calculate_checksum(self, data):

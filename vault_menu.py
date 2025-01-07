@@ -5,6 +5,7 @@ from add_password import main
 from os import system, name
 from colors import bcolors as cr
 from time import sleep
+from pathlib import Path
 
 # clear the screen
 def clear():
@@ -18,17 +19,26 @@ def clear():
 # getting the salt, hash, and vault path
 def get_information():
     # get the vault ID
-    vault_id = input("Enter the unique vault ID: ")
-    storage_path = f"{vault_id}.csv"
+    while True:
+        try:
+            vault_id = input("Enter the unique vault ID: ")
+            home_dir = Path.home()
+            storage_path = home_dir / f"{vault_id}.csv"
 
-    try:
-        # get the other vault information
-        with open(storage_path, "r") as storage_file:
-            contents = storage_file.read()
+            # get the other vault information
+            with open(storage_path, "r") as storage_file:
+                contents = storage_file.read()
 
-    except Exception as e:
-        print(f"Something went wrong. Check your information: {e}")
+            break
 
+        except Exception as e:
+            print(f"Something went wrong. Check your information: {e}")
+            sleep(3)
+            clear()
+            continue
+
+    print(f"\n{cr.GREEN}{cr.BOLD}Vault found! Accessing...{cr.END}")
+    sleep(2)
     contents = contents.split(",")
 
     return contents[:3] + [storage_path]

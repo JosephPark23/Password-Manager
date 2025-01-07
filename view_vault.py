@@ -1,9 +1,12 @@
+import getpass
 import hashlib
 from base64 import urlsafe_b64encode
 
 from cryptography.fernet import Fernet
+from colors import bcolors as cr
 import csv
 from os import system, name
+from time import sleep
 
 # clear the screen
 def clear():
@@ -17,9 +20,9 @@ def clear():
 # get the credentials from the user
 def get_credentials(salt):
     clear()
-    print("JIP Password Manager Access Portal\n")
+    print(f"{cr.HEADER}{cr.CYAN}JIP Password Manager Access Portal{cr.END}\n")
     print("==================================\n")
-    submitted_password = input("Enter the master password: ")
+    submitted_password = getpass.getpass("Enter the master password: ")
 
     if isinstance(salt, str):
         salt = bytes.fromhex(salt)
@@ -46,6 +49,8 @@ def authenticate(vault_path, salt, stored_checksum):
 
         except Exception as e:
             print(f"Something went wrong. Check your information: {e}")
+            sleep(2)
+            clear()
             continue
 
         fernet = Fernet(derived_key)
@@ -55,6 +60,8 @@ def authenticate(vault_path, salt, stored_checksum):
 
         except Exception as e:
             print(f"Decryption went wrong. Check your information: {e}")
+            sleep(2)
+            clear()
             continue
 
         calculated_checksum = hashlib.sha256(decrypted_contents).hexdigest()
@@ -64,19 +71,21 @@ def authenticate(vault_path, salt, stored_checksum):
             break
         else:
             print("Incorrect password. Please try again.")
+            sleep(2)
+            clear()
 
 
 # print the decrypted contents
 def print_contents(decrypted_contents):
     clear()
-    print("\n============================================JIP PASSWORD MANAGER===========================================\n\n")
+    print(f"\n{cr.CYAN}============================================JIP PASSWORD MANAGER==========================================={cr.END}\n\n")
     reader = csv.reader(decrypted_contents.decode().splitlines())
-    headers = next(reader)  # Skip headers
+    headers = next(reader)  # skip headers hehe
 
-    print(f"{headers[0]:<20} {headers[1]:<30} {headers[2]:<15} {headers[3]:<20}")
-    print("-" * 90)
+    print(f"{headers[0]:<20} {headers[1]:<30} {headers[2]:<15}")
+    print("-" * 70)
     for row in reader:
-        print(f"{row[0]:<20} {row[1]:<30} {row[2]:<15} {row[3]:<20}")
+        print(f"{row[0]:<20} {row[1]:<30} {row[2]:<15}")
 
     input("\n\nPress the ENTER key to leave: ")
     clear()
